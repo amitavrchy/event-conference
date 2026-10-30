@@ -5,3 +5,12 @@ node_modules
 /generated/prisma
 
 /generated
+
+# Local SQLite
+*.db
+*.db-journal
+prisma/dev.db
+
+# Build cache
+*.tsbuildinfo
+
