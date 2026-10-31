@@ -5,6 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function trackColor(name: string) {
+  const colors: Record<string, string> = {
+    "Design Systems": "#c84625",
+    "Product Craft": "#526b51",
+    "AI & Interfaces": "#78608d",
+    Mainstage: "#8e6836",
+  };
+  return colors[name] ?? "#70716a";
+}
+
 export function formatCurrency(amount: number, currency = "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

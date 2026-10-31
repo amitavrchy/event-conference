@@ -26,7 +26,7 @@ export default function VenuePage() {
       ) : (
         <>
           <p className="text-base text-muted">{venue?.address}</p>
-          <div className="mt-8 overflow-hidden rounded-xl border border-white/10">
+          <div className="mt-8 overflow-hidden rounded-xl border border-line">
             <iframe
               title="Venue map"
               src={mapSrc}

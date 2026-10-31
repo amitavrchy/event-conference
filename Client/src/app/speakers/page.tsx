@@ -6,7 +6,11 @@ import { Section } from "@/components/ui/Section";
 import { SpeakerGrid } from "@/components/speakers/SpeakerGrid";
 
 export default function SpeakersPage() {
-  const { data = [], isLoading, isError } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["speakers"],
     queryFn: speakersApi.list,
   });
@@ -14,8 +18,8 @@ export default function SpeakersPage() {
   return (
     <Section
       eyebrow="Lineup"
-      title="Speakers"
-      description="The builders reshaping systems, motion, and product craft."
+      title="Meet your next inspiration."
+      description="Different disciplines. Shared curiosity. Get to know the minds shaping the conversation at NEXUS."
       className="pt-12"
     >
       {isLoading && <p className="text-base text-muted">Loading speakers…</p>}

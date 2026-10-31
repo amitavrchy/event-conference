@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { venueApi } from "@/lib/api";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -12,43 +12,58 @@ export function VenueTeaser() {
     queryKey: ["venue"],
     queryFn: venueApi.get,
   });
-
   return (
-    <section className="relative py-24 sm:py-32">
-      <Container className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative aspect-[4/5] overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]"
-        >
+    <section className="py-20 sm:py-24 lg:py-28">
+      <Container className="grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
+        <div className="relative aspect-[1.12/1] overflow-hidden rounded-xl">
           <Image
-            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=80"
-            alt="Festival venue atmosphere"
+            src="/images/venue.jpg"
+            alt="A lively festival crowd beneath a shower of confetti"
             fill
             className="object-cover"
-            sizes="(max-width:1024px) 100vw, 50vw"
+            sizes="(max-width: 1024px) 90vw, 45vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
-        </motion.div>
-
-        <div>
-          <p className="font-mono text-sm uppercase tracking-[0.22em] text-neon">
-            Venue
-          </p>
-          <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,3.75rem)] leading-[1.05] text-text">
-            {venue?.name ?? "NEXUS Arena"}
-          </h2>
-          <p className="mt-5 text-base text-muted sm:text-lg">
-            {venue?.description ??
-              "Three stages, open courtyards, and night markets wrapping the hall."}
-          </p>
-          <p className="mt-4 text-base text-text">{venue?.address}</p>
-          <div className="mt-8">
-            <Button href="/venue" variant="secondary">
-              Map & hotels
-            </Button>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
+            <div>
+              <p className="mb-2 font-mono text-sm text-white/65">
+                THE MEETING POINT
+              </p>
+              <p className="font-display text-3xl font-medium!">
+                NEXUS Arena · Dhaka
+              </p>
+            </div>
+            <MapPin size={23} strokeWidth={1.5} />
           </div>
+        </div>
+        <div>
+          <p className="eyebrow text-muted">More than a venue</p>
+          <h2 className="section-heading mt-6">
+            Come for the ideas.
+            <br />
+            <span className="accent-serif text-neon">
+              Stay for the feeling.
+            </span>
+          </h2>
+          <p className="mt-6 max-w-[390px] text-base leading-[1.8] text-muted">
+            {venue?.description ??
+              "From the mainstage to the courtyard, there’s always another conversation waiting. Make yourself at home at NEXUS Arena."}
+          </p>
+          <div className="mt-7 flex items-start gap-3 border-t border-line pt-6">
+            <MapPin size={19} className="mt-1 shrink-0 text-neon" />
+            <div>
+              <p className="text-sm font-medium">
+                {venue?.name ?? "NEXUS Arena · Dhaka"}
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                {venue?.address ??
+                  "Plot 12, Gulshan Avenue, Dhaka 1212, Bangladesh"}
+              </p>
+            </div>
+          </div>
+          <Button href="/venue" variant="secondary" className="mt-7">
+            Plan your visit <ArrowUpRight size={16} />
+          </Button>
         </div>
       </Container>
     </section>

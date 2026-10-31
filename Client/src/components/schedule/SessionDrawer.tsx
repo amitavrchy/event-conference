@@ -1,9 +1,11 @@
 "use client";
 
 import { format } from "date-fns";
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Session, Speaker } from "@/lib/types";
+import { trackColor } from "@/lib/utils";
 import { agendaApi } from "@/lib/api";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -29,6 +31,46 @@ export function SessionDrawer({
   const { token } = useAppSelector((s) => s.auth);
   const sessionIds = useAppSelector((s) => s.agenda.sessionIds);
   const queryClient = useQueryClient();
+  const panel = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!session) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    panel.current?.focus();
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+      if (event.key !== "Tab") return;
+      const elements = panel.current?.querySelectorAll<HTMLElement>(
+        "a[href], button:not([disabled]), [tabindex='0']",
+      );
+      if (!elements?.length) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (
+        event.shiftKey &&
+        (document.activeElement === first ||
+          document.activeElement === panel.current)
+      ) {
+        event.preventDefault();
+        last.focus();
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last ||
+          document.activeElement === panel.current)
+      ) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKey);
+      previousFocus?.focus();
+    };
+  }, [session, onClose]);
 
   const inAgenda = session ? sessionIds.includes(session.id) : false;
 
@@ -60,13 +102,23 @@ export function SessionDrawer({
         aria-label="Close session details"
         onClick={onClose}
       />
-      <aside className="relative z-10 flex h-full w-full max-w-md flex-col border-l border-violet/30 bg-surface p-6 shadow-2xl">
+      <aside
+        ref={panel}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="session-title"
+        tabIndex={-1}
+        className="relative z-10 flex h-full w-full max-w-md flex-col overflow-y-auto overscroll-contain border-l border-line bg-surface p-6 shadow-2xl outline-none"
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="font-mono text-sm text-neon">
               {format(start, "EEE · HH:mm")} – {format(end, "HH:mm")}
             </p>
-            <h2 className="mt-2 font-display text-2xl uppercase leading-tight text-text">
+            <h2
+              id="session-title"
+              className="mt-2 font-display text-3xl leading-tight text-text"
+            >
               {session.title}
             </h2>
           </div>
@@ -86,7 +138,9 @@ export function SessionDrawer({
           {session.track && (
             <div>
               <dt className="font-mono text-sm uppercase text-muted">Track</dt>
-              <dd style={{ color: session.track.color }}>{session.track.name}</dd>
+              <dd style={{ color: trackColor(session.track.name) }}>
+                {session.track.name}
+              </dd>
             </div>
           )}
           {session.room && (

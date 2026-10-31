@@ -9,7 +9,11 @@ import { CheckoutForm } from "@/components/tickets/CheckoutForm";
 import { FAQ } from "@/components/home/FAQ";
 
 export default function TicketsPage() {
-  const { data: types = [], isLoading, isError } = useQuery({
+  const {
+    data: types = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["ticket-types"],
     queryFn: ticketsApi.types,
   });
@@ -18,9 +22,9 @@ export default function TicketsPage() {
   return (
     <>
       <Section
-        eyebrow="Passes"
-        title="Tickets"
-        description="Early Bird · Regular · VIP · Remote — pick your format."
+        eyebrow="Your place at NEXUS"
+        title="Make room for what’s next."
+        description="In the room or from wherever you are. Choose your pass and find your people."
         className="pt-12"
       >
         {isLoading && <p className="text-base text-muted">Loading tiers…</p>}

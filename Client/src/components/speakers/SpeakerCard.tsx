@@ -1,73 +1,55 @@
-"use client";
-
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import type { Speaker } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function SpeakerCard({
   speaker,
   className,
+  number,
 }: {
   speaker: Speaker;
   className?: string;
+  number?: number;
 }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 260, damping: 20, mass: 0.35 });
-  const springY = useSpring(y, { stiffness: 260, damping: 20, mass: 0.35 });
-
-  function onMove(e: React.MouseEvent) {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    x.set((e.clientX - (rect.left + rect.width / 2)) * 0.1);
-    y.set((e.clientY - (rect.top + rect.height / 2)) * 0.1);
-  }
-
-  function onLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
   return (
-    <motion.div style={{ x: springX, y: springY }} className={cn("h-full", className)}>
-      <Link
-        ref={ref}
-        href={`/speakers/${speaker.slug}`}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        className="group relative block h-full overflow-hidden bg-surface"
-      >
-        <div className="relative aspect-[3/4] overflow-hidden">
-          {speaker.photoUrl ? (
-            <Image
-              src={speaker.photoUrl}
-              alt={speaker.name}
-              fill
-              className="object-cover transition duration-700 group-hover:scale-105"
-              sizes="(max-width:768px) 80vw, 280px"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-surface-2 font-display text-5xl text-neon">
-              {speaker.name.slice(0, 1)}
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent opacity-90" />
-          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-            <p className="font-display text-2xl text-text sm:text-3xl">
-              {speaker.name}
-            </p>
-            <p className="mt-2 text-sm text-neon">
-              {speaker.title}
-              {speaker.company ? ` · ${speaker.company}` : ""}
-            </p>
+    <Link
+      href={`/speakers/${speaker.slug}`}
+      className={cn("speaker-link group block h-full", className)}
+    >
+      <div className="relative aspect-[4/4.7] overflow-hidden rounded-lg bg-surface-2">
+        {speaker.photoUrl ? (
+          <Image
+            src={speaker.photoUrl}
+            alt={speaker.name}
+            fill
+            className="speaker-image object-cover object-top"
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 43vw, 22vw"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center font-display text-7xl text-neon">
+            {speaker.name[0]}
           </div>
-        </div>
-      </Link>
-    </motion.div>
+        )}
+        {number && (
+          <span className="absolute left-3 top-3 font-mono text-sm text-white mix-blend-difference">
+            0{number}
+          </span>
+        )}
+        {speaker.company && (
+          <span className="absolute bottom-3 left-3 rounded-full border border-white/50 bg-bg/95 px-3 py-1 text-sm font-medium text-text">
+            {speaker.company}
+          </span>
+        )}
+        <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-bg/95 text-text transition group-hover:rotate-45 group-hover:bg-[#ee623e] group-hover:text-white">
+          <ArrowUpRight size={17} />
+        </span>
+      </div>
+      <h3 className="mt-4 font-display text-[22px] font-medium! tracking-[-.045em]! sm:text-[25px]">
+        {speaker.name}
+      </h3>
+      <p className="mt-1 text-sm text-muted">{speaker.title}</p>
+    </Link>
   );
 }

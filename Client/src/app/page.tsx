@@ -1,5 +1,4 @@
 import { Hero } from "@/components/home/Hero";
-import { Countdown } from "@/components/home/Countdown";
 import { SpeakersTeaser } from "@/components/home/SpeakersTeaser";
 import { Themes } from "@/components/home/Themes";
 import { TicketCTA } from "@/components/home/TicketCTA";
@@ -41,13 +40,12 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      <Countdown />
+      <SponsorsMarquee />
       <SpeakersTeaser />
       <Themes />
-      <TicketCTA />
-      <SponsorsMarquee />
       <VenueTeaser />
       <FAQ />
+      <TicketCTA />
     </>
   );
 }

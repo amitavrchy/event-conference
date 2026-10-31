@@ -26,10 +26,10 @@ export function DayTabs({
             aria-selected={active}
             onClick={() => onChange(day)}
             className={cn(
-              "rounded-md border px-4 py-3 font-mono text-sm uppercase tracking-wide transition",
+              "rounded-lg border px-5 py-3 text-sm transition",
               active
-                ? "border-neon bg-neon/15 text-neon"
-                : "border-violet/30 text-muted hover:border-neon/40 hover:text-text",
+                ? "border-neon bg-neon/5 text-neon"
+                : "border-line text-muted hover:border-neon/40 hover:text-text",
             )}
           >
             Day {i + 1}

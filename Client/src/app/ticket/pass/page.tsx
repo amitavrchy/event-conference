@@ -109,7 +109,7 @@ function PassContent() {
           name="code"
           defaultValue={code || resolvedCode}
           placeholder="Ticket code"
-          className="flex-1 rounded-sm border border-white/15 bg-bg px-4 py-3 text-base text-text outline-none focus:border-neon"
+          className="min-w-0 flex-1 rounded-lg border border-line bg-bg px-4 py-3 text-base text-text outline-none focus:border-neon"
         />
         <Button type="submit" variant="secondary">
           Load
@@ -120,7 +120,9 @@ function PassContent() {
         <TicketPass ticket={ticket} payload={qrQuery.data.payload} />
       ) : (
         <div className="space-y-4">
-          {(ticketQuery.isLoading || qrQuery.isLoading || meQuery.isLoading) && (
+          {(ticketQuery.isLoading ||
+            qrQuery.isLoading ||
+            meQuery.isLoading) && (
             <p className="text-base text-muted">Loading pass…</p>
           )}
           {(ticketQuery.isError || qrQuery.isError) && (

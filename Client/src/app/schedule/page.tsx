@@ -43,16 +43,15 @@ export default function SchedulePage() {
       ? list.filter((s) => s.track?.id === trackId)
       : list;
     return [...filtered].sort(
-      (a, b) =>
-        new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
+      (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
     );
   }, [scheduleQuery.data, trackId]);
 
   return (
     <Section
       eyebrow="Agenda"
-      title="Schedule"
-      description="Filter by day and track. Open a session to add it to your personal agenda."
+      title="Three days. Your own path."
+      description="Follow your curiosity across four tracks. Explore a session, meet the speakers, and build a schedule that’s yours."
       className="pt-12"
     >
       <div className="space-y-6">
@@ -92,9 +91,7 @@ export default function SchedulePage() {
 
           return (
             <div key={session.id}>
-              {(isNow || showNowLine) && !prevWasNow && isNow && (
-                <NowLine />
-              )}
+              {(isNow || showNowLine) && !prevWasNow && isNow && <NowLine />}
               {showNowLine && !isNow && <NowLine label="Coming up" />}
               <SessionCard
                 session={session}

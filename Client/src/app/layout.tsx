@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Archivo_Black, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  DM_Sans,
+  Inter,
+  JetBrains_Mono,
+  Instrument_Serif,
+} from "next/font/google";
 import { Providers } from "@/providers/Providers";
-import { Preloader } from "@/components/layout/Preloader";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
 import "./globals.css";
 
-const display = Archivo_Black({
-  weight: "400",
+const display = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -23,7 +26,15 @@ const inter = Inter({
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-code",
+  display: "swap",
+});
+
+const editorial = Instrument_Serif({
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-editorial",
   display: "swap",
 });
 
@@ -44,10 +55,14 @@ export const metadata: Metadata = {
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <Providers>
-      <Preloader />
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <Header />
       <PageTransition>
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <Footer />
       </PageTransition>
     </Providers>
@@ -60,9 +75,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${inter.variable} ${mono.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${display.variable} ${inter.variable} ${mono.variable} ${editorial.variable} h-full antialiased`}
     >
-      <body className="grain flex min-h-full flex-col bg-bg text-text">
+      <body className="flex min-h-full flex-col bg-bg text-text">
         <Suspense
           fallback={
             <div className="flex min-h-full flex-1 items-center justify-center bg-bg text-muted">

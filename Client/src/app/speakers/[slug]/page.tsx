@@ -15,7 +15,11 @@ export default function SpeakerDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = use(params);
-  const { data: speaker, isLoading, isError } = useQuery({
+  const {
+    data: speaker,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["speakers", slug],
     queryFn: () => speakersApi.bySlug(slug),
   });
@@ -62,9 +66,7 @@ export default function SpeakerDetailPage({
           <p className="font-mono text-sm uppercase tracking-widest text-neon">
             Speaker
           </p>
-          <h1 className="mt-2 font-display text-4xl uppercase text-text sm:text-5xl">
-            {speaker.name}
-          </h1>
+          <h1 className="section-heading mt-4 text-text">{speaker.name}</h1>
           <p className="mt-3 text-lg text-magenta">
             {speaker.title}
             {speaker.company ? ` · ${speaker.company}` : ""}
@@ -73,9 +75,7 @@ export default function SpeakerDetailPage({
 
           {speaker.sessions && speaker.sessions.length > 0 && (
             <div className="mt-10">
-              <h2 className="font-display text-2xl uppercase text-text">
-                Sessions
-              </h2>
+              <h2 className="font-display text-3xl text-text">Sessions</h2>
               <ul className="mt-4 space-y-3">
                 {speaker.sessions.map((s) => (
                   <li

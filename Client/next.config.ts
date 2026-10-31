@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const nextConfig: NextConfig = {
-  // cacheComponents / partialPrefetching off: Redux configureStore uses
-  // Math.random, which Next 16 cacheComponents rejects during prerender.
   async rewrites() {
+    if (apiUrl && /^https?:\/\//.test(apiUrl)) {
+      return [];
+    }
     return [
       {
         source: "/backend/:path*",

@@ -1,16 +1,9 @@
-"use client";
+﻿"use client";
 
 import { format } from "date-fns";
+import { ArrowUpRight, Bookmark } from "lucide-react";
 import type { Session, Speaker } from "@/lib/types";
-import { cn } from "@/lib/utils";
-
-function speakerNames(session: Session) {
-  const list = session.speakers ?? [];
-  return list
-    .map((s) => ("speaker" in s ? s.speaker?.name : (s as Speaker).name))
-    .filter(Boolean)
-    .join(", ");
-}
+import { cn, trackColor } from "@/lib/utils";
 
 export function SessionCard({
   session,
@@ -23,42 +16,56 @@ export function SessionCard({
   inAgenda?: boolean;
   isNow?: boolean;
 }) {
-  const start = new Date(session.startsAt);
-  const end = new Date(session.endsAt);
-
+  const names = (session.speakers ?? [])
+    .map((s) => ("speaker" in s ? s.speaker.name : (s as Speaker).name))
+    .filter(Boolean)
+    .join(", ");
+  const color = trackColor(session.track?.name ?? "");
   return (
     <button
       type="button"
       onClick={onOpen}
       className={cn(
-        "w-full rounded-lg border bg-surface/80 p-5 text-left transition hover:border-neon/50",
-        isNow ? "border-neon/60" : "border-violet/25",
-        inAgenda && "ring-1 ring-magenta/40",
+        "group grid w-full items-center gap-4 rounded-xl border bg-surface p-5 text-left transition hover:border-neon/60 hover:shadow-sm sm:grid-cols-[125px_1fr_auto] sm:gap-6 sm:p-7",
+        isNow ? "border-neon" : "border-line",
+        inAgenda && "ring-1 ring-neon/30",
       )}
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="font-mono text-sm text-neon">
-          {format(start, "HH:mm")} – {format(end, "HH:mm")}
+      <div className="flex items-center gap-2 font-mono text-sm text-muted sm:block">
+        <p className="text-base text-text">
+          {format(new Date(session.startsAt), "HH:mm")}
         </p>
-        {session.track && (
-          <span
-            className="rounded px-2 py-1 text-sm text-bg"
-            style={{ backgroundColor: session.track.color }}
-          >
-            {session.track.name}
-          </span>
-        )}
+        <p className="sm:mt-1">— {format(new Date(session.endsAt), "HH:mm")}</p>
       </div>
-      <h3 className="mt-3 font-display text-xl uppercase leading-snug text-text">
-        {session.title}
-      </h3>
-      <p className="mt-2 text-sm text-muted">
-        {session.room?.name ?? "TBA"}
-        {speakerNames(session) ? ` · ${speakerNames(session)}` : ""}
-      </p>
-      {inAgenda && (
-        <p className="mt-2 text-sm text-magenta">On my schedule</p>
-      )}
+      <div>
+        <div className="mb-3 flex flex-wrap items-center gap-3">
+          {session.track && (
+            <span
+              className="rounded-full px-3 py-1 text-sm"
+              style={{ color, backgroundColor: color + "12" }}
+            >
+              {session.track.name}
+            </span>
+          )}
+          {inAgenda && (
+            <span className="flex items-center gap-1.5 text-sm text-neon">
+              <Bookmark size={13} fill="currentColor" />
+              Saved
+            </span>
+          )}
+        </div>
+        <h3 className="font-display text-[23px] font-medium! tracking-[-.04em]!">
+          {session.title}
+        </h3>
+        <p className="mt-2 text-sm text-muted">
+          {session.room?.name ?? "Room to be announced"}
+          {names ? " · " + names : ""}
+        </p>
+      </div>
+      <ArrowUpRight
+        size={20}
+        className="hidden text-muted transition group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-neon sm:block"
+      />
     </button>
   );
 }

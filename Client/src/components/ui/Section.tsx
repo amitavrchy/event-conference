@@ -17,20 +17,12 @@ export function Section({
   description?: string;
 }) {
   return (
-    <section id={id} className={cn("relative py-20 sm:py-28", className)}>
+    <section id={id} className={cn("relative py-20 sm:py-24", className)}>
       <Container>
         {(eyebrow || title || description) && (
-          <header className="mb-12 max-w-2xl">
-            {eyebrow && (
-              <p className="mb-3 font-mono text-sm uppercase tracking-[0.2em] text-neon">
-                {eyebrow}
-              </p>
-            )}
-            {title && (
-              <h2 className="font-display text-4xl uppercase leading-none text-text sm:text-5xl">
-                {title}
-              </h2>
-            )}
+          <header className="mb-12 max-w-3xl border-b border-line pb-10">
+            {eyebrow && <p className="eyebrow mb-5 text-muted">{eyebrow}</p>}
+            {title && <h1 className="section-heading text-text">{title}</h1>}
             {description && (
               <p className="mt-4 text-lg text-muted">{description}</p>
             )}

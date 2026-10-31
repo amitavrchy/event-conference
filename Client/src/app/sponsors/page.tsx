@@ -10,7 +10,12 @@ const packages = [
   {
     tier: "Platinum",
     price: "$45k",
-    perks: ["Mainstage naming", "Booth + lounge", "5 VIP passes", "Keynote intro"],
+    perks: [
+      "Mainstage naming",
+      "Booth + lounge",
+      "5 VIP passes",
+      "Keynote intro",
+    ],
   },
   {
     tier: "Gold",
@@ -41,8 +46,13 @@ export default function SponsorsPage() {
     >
       <div className="grid gap-4 md:grid-cols-3">
         {packages.map((p) => (
-          <div key={p.tier} className="border border-white/10 bg-surface p-6">
-            <p className="text-sm uppercase tracking-wider text-neon">{p.tier}</p>
+          <div
+            key={p.tier}
+            className="rounded-xl border border-line bg-surface p-7"
+          >
+            <p className="text-sm uppercase tracking-wider text-neon">
+              {p.tier}
+            </p>
             <p className="mt-2 font-display text-4xl text-text">{p.price}</p>
             <ul className="mt-4 space-y-2">
               {p.perks.map((perk) => (
@@ -83,7 +93,7 @@ export default function SponsorsPage() {
                         alt={s.name}
                         width={140}
                         height={48}
-                        className="h-10 w-auto object-contain"
+                        className="partner-logo h-10 w-auto object-contain"
                       />
                     ) : (
                       <span className="text-xl font-semibold text-muted hover:text-neon">

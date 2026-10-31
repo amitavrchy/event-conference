@@ -8,6 +8,7 @@ import type {
   Ticket,
   TicketType,
   Track,
+  User,
   VenueInfo,
 } from "./types";
 
@@ -29,6 +30,7 @@ export function setAuthToken(token: string | null) {
 }
 
 export const authApi = {
+  me: () => api.get<User>("/auth/me").then((r) => r.data),
   register: (data: {
     email: string;
     password: string;
@@ -82,9 +84,7 @@ export const ticketsApi = {
 export const agendaApi = {
   get: () => api.get<AgendaResponse>("/agenda").then((r) => r.data),
   add: (sessionId: string) =>
-    api
-      .post<{ warning?: string }>(`/agenda/${sessionId}`)
-      .then((r) => r.data),
+    api.post<{ warning?: string }>(`/agenda/${sessionId}`).then((r) => r.data),
   remove: (sessionId: string) =>
     api.delete(`/agenda/${sessionId}`).then((r) => r.data),
 };

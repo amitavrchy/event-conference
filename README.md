@@ -4,6 +4,8 @@ Flagship design×tech conference site — Next.js client + NestJS API.
 
 ## Quick start
 
+On Windows, double-click `start-nexus.cmd` to run the website and API together in a local terminal. It opens the browser after both services are ready. Keep that terminal open; press Ctrl+C to stop both services. The launcher uses ports 3010 and 4010, choosing a nearby free port if either is occupied. Dependencies and the server build must already be available.
+
 ### API (port 4000)
 
 ```bash
@@ -14,9 +16,9 @@ npm run db:setup
 npm run start:dev
 ```
 
-SQLite DB lives at `Server/prisma/dev.db`. Demo users (password `nexus2026`):
+Postgres in Docker on deploy; local can use DATABASE_URL in Server/.env. Demo users (password `nexus2026`):
 
-- `amitav@nexusconf.dev` — attendee
+- `demo@nexusconf.dev` — attendee
 - `staff@nexusconf.dev` — door staff
 - `admin@nexusconf.dev` — admin
 

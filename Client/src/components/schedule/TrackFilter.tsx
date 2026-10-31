@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import type { Track } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, trackColor } from "@/lib/utils";
 
 export function TrackFilter({
   tracks,
@@ -13,37 +13,54 @@ export function TrackFilter({
   onChange: (id: string | null) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by track">
+    <div
+      className="flex flex-wrap gap-2"
+      role="group"
+      aria-label="Filter by track"
+    >
       <button
         type="button"
+        aria-pressed={value === null}
         onClick={() => onChange(null)}
         className={cn(
-          "rounded-md border px-4 py-2 text-sm transition",
+          "min-h-10 rounded-full border px-4 py-2 text-sm transition",
           value === null
-            ? "border-neon text-neon"
-            : "border-violet/30 text-muted hover:text-text",
+            ? "border-text bg-text text-bg"
+            : "border-line text-muted hover:border-text",
         )}
       >
         All tracks
       </button>
-      {tracks.map((t) => (
+      {tracks.map((track) => (
         <button
-          key={t.id}
+          key={track.id}
           type="button"
-          onClick={() => onChange(t.id)}
+          aria-pressed={value === track.id}
+          onClick={() => onChange(track.id)}
           className={cn(
-            "rounded-md border px-4 py-2 text-sm transition",
-            value === t.id
-              ? "border-transparent text-bg"
-              : "border-violet/30 text-muted hover:text-text",
+            "flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 text-sm transition",
+            value === track.id
+              ? "text-white"
+              : "border-line text-muted hover:border-text",
           )}
           style={
-            value === t.id
-              ? { backgroundColor: t.color, borderColor: t.color }
-              : { borderColor: `${t.color}66` }
+            value === track.id
+              ? {
+                  backgroundColor: trackColor(track.name),
+                  borderColor: trackColor(track.name),
+                }
+              : undefined
           }
         >
-          {t.name}
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 rounded-full"
+            style={{
+              backgroundColor:
+                value === track.id ? "white" : trackColor(track.name),
+            }}
+          />
+          {track.name}
         </button>
       ))}
     </div>
