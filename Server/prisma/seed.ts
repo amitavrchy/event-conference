@@ -32,7 +32,7 @@ async function main() {
       email: 'admin@nexusconf.dev',
       passwordHash,
       name: 'NEXUS Admin',
-      role: Role.ADMIN,
+      role: role: Role.ADMIN,
     },
   });
 
@@ -41,7 +41,7 @@ async function main() {
       email: 'staff@nexusconf.dev',
       passwordHash,
       name: 'Door Staff',
-      role: Role.STAFF,
+      role: role: Role.STAFF,
     },
   });
 
@@ -50,7 +50,7 @@ async function main() {
       email: 'demo@nexusconf.dev',
       passwordHash,
       name: 'Demo Attendee',
-      role: Role.ATTENDEE,
+      role: role: Role.ATTENDEE,
       company: 'Cursor Labs',
     },
   });
