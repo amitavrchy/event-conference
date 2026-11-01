@@ -88,8 +88,8 @@ async function waitFor(url, validate) {
 
 try {
   for (const file of [
-    "Client/node_modules/next/dist/bin/next",
-    "Server/dist/main.js",
+    "frontend/node_modules/next/dist/bin/next",
+    "backend/dist/main.js",
   ]) {
     if (!existsSync(path.join(root, file))) {
       throw new Error(
@@ -105,14 +105,14 @@ try {
 
   console.log("\nNEXUS Conf — local preview\n");
   console.log("Starting the API and website...");
-  start("api", "Server", ["dist/main.js"], {
+  start("api", "backend", ["dist/main.js"], {
     PORT: String(apiPort),
     CLIENT_ORIGIN: webUrl,
   });
   await waitFor(`${apiUrl}/health`, (body) => body.includes("NEXUS Conf"));
   start(
     "website",
-    "Client",
+    "frontend",
     [
       "node_modules/next/dist/bin/next",
       "dev",
